@@ -6,7 +6,7 @@
 ?>
 <div class="main-content">
 <div class="topp-nav">
-    <h2><strong>BOOKs</strong></h2>  
+    <h2><strong>TUTORIALS</strong></h2>  
     <div class="topp-right">
         <div class="navv-right">
             <div class="notificationn-btn">
@@ -25,7 +25,7 @@
     <div class="admin-books-view">
         <div class="available-books">
             <div class="books-view">
-                <h3>50 <br> <span>Books</span> </h3>
+                <h3> 25 <br> <span>Tutorials</span> </h3>
             </div>
             <div class="glass3">
 
@@ -53,12 +53,12 @@
             <div class="update-form">
                 <div class="upload-form">
                     <div class="upload-form-info">
-                        <h4>Add a Book</h4>
+                        <h4>Add a Tutorial</h4>
                         <div class="preference">
                             <label for="name">Name</label> <br><br>
                             <input type="text" style="width: 320px; height: 35px;" name="book_name" placeholder="The Innovators"><br><br>
                         </div>
-                        <div class="preference">
+                        <!-- <div class="preference">
                             <label for="name">Author</label> <br><br>
                             <input type="text" style="width: 320px; height: 35px;" name="book_author" placeholder="Walter Isaac"><br><br>
                         </div>
@@ -66,17 +66,17 @@
                             <label for="name">Date Published</label> <br><br>
                             <input type="text" style="width: 320px; height: 35px;" name="book_description" placeholder="23 September, 2021" ><br><br>
                             <img src="images/calendar1.png" alt="">
-                        </div>
+                        </div> -->
                         <div class="preference">
                             <label for="name">Type</label> <br><br>
                             <input type="text" style="width: 320px; height: 35px;" name="" placeholder="Technology"><br><br>
-                            <img src="images/drop-down-btn.png" id="drop-down" alt="">
+                            <img src="images/drop-down-btn.png" id="drop-down-icon" alt="">
                         </div>
                         <div class="preference">
-                            <label for="name">Attach a file(*pdf)</label> <br><br>
+                            <label for="name">Attach a file(*mp4, mkv)</label> <br><br>
                             <div class="upload-preference">
                                 <input type="file" style="width: 320px; height: 35px;" name="fileToUpload" id="fileToUpload" placeholder="Attach a file here..."><br><br>
-                                <img src="images/files.png" id="files-icon" alt="">
+                                <img src="images/files.png" id="file-tutorial-icon" alt="">
                             </div>
                         </div>
                         <input type="submit" style="width: 330px; height:35px; margin-left: 25px;" name="submit" value="SAVE">
@@ -100,15 +100,17 @@
 				// {"targets" : [0,1] , "visible" : false},
 			],
 
-			"iDisplayLength": 7,
+			"iDisplayLength": 5,
 
 			"order": [],
 
-			"language": { "sSearch": "", "searchPlaceholder" : "Search books ..." },
+			"language": { "sSearch": "", "searchPlaceholder" : "Search tutorials ..." },
 
 			serverSide: true,
 
 			processing: true,
+
+            paginate: true,
 
 			ajax : {
 				url : "<?=base_url() ?>/books/getBooks",
@@ -125,6 +127,7 @@
 			},
 
 			"dom": "<'row' <'col-sm-6 text-left'f> >"+"<'row padded'<'col-sm-12'tr>>" + "<'row' <'col-sm-6'i> <'col-sm-6 text-right'p>>"
+        
 		});
    });
 </script>

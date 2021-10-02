@@ -9,7 +9,7 @@ class People extends Model
 	protected $primaryKey = 'personID';
 	protected $returnType = 'object';
 
-	protected $allowedFields = ['firstName', 'lastName', 'email', 'phoneNumber','userName','password'];
+	protected $allowedFields = ['firstName', 'lastName', 'email', 'phoneNumber','userName','password','role'];
 
 	protected $useTimestamps = true;
 	protected $dateFormat = 'int';

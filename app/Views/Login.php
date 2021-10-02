@@ -9,11 +9,15 @@
 </head>
 <body>
     <div class="loginbox">
-        <?php if(!empty($data)) {?>
-            <p><?=$msg?></p>
-        <?php } ?>
         <h1 style="padding: 30px;">User Login</h1>
         <form action="<?=base_url()?>/login" method="POST">
+
+            <?php if (session()->get('validation')):?>
+                <div class="alert alert-success" role="alert">
+                    <?=session()->get('errors')?>
+                </div>
+            <?php endif; ?>
+
             <div>
               <input type="text" name="username" placeholder="Username" required>
             </div>

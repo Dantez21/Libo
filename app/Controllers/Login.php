@@ -26,7 +26,6 @@ class Login extends BaseController
 
 		$data = array();
 	
-
 		if($this->request->getPost('username') != ""){
 
 			$username = $this->request->getPost('username');
@@ -40,15 +39,30 @@ class Login extends BaseController
 				$this->_session->set('userID', $personID);
 
 				return redirect()->to(base_url().'/home');
-			} else{
-
-				$msg[] = "Wrong credentials";
-			}
+			} 
 			
 		}
-
+		// else{
+		// 	msg = ('$error', 'Invalid Credentials');
+			
+		// }
+		$rules =[
+			'username' =>'required|valid_username',
+			'password' =>'required|validateUser[username,password]',
+		];
+		$errors = [
+			'password' =>[
+				'validateUser' => 'username or password dont match'
+			]
+		];
+		if(! $this->validate($rules, $errors)){
+			$data['validation']=$this->validator;
+		}else{
+			$_personModel=new People();
+		}
+		
 
 		echo view('login', $data);
 	}
-	
+		
 }

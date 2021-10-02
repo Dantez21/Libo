@@ -3,7 +3,7 @@
 namespace App\Controllers;
 use CodeIgniter\Config\Services;
 
-class Home extends BaseController
+class ProfileContoller extends BaseController
 {
 
 	protected $_session;
@@ -17,14 +17,9 @@ class Home extends BaseController
 	
 	public function index()
 	{
-		
-		echo view('home');
+		$session = session();
+
+		echo "Hello : ".$session->get('username');
 	}
 
-	public function logout()
-	{
-		$this->_session->destroy();
-
-		return redirect()->to( base_url().'/login');
-	}
 }

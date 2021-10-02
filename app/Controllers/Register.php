@@ -28,6 +28,8 @@ use App\Models\Lecturer;
 
 		$userType = $this->request->getPost('user-type');
 
+		$userType == "Student"? $role = 'student' : $role = "lecturer";
+
 		$personData = array(
 			'firstName' => $this->request->getPost('fname'),
 			'lastName' => $this->request->getPost('lname'),
@@ -35,6 +37,8 @@ use App\Models\Lecturer;
 			'phoneNumber' => $this->request->getPost('phone-no'),
 			'userName' => $this->request->getPost('username'),
 			'password' => md5($this->request->getPost('password')),
+			'role' => $role,
+
 		);
 
 		if($userType == "Student"){

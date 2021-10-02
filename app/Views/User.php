@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="stylesheet" type="text/css" href="<?=base_url()?>/css/style.css">
 
     <!-- Toastr style -->
@@ -47,86 +46,61 @@
 
     <!-- Toastr script -->
     <!-- <script src="<?=base_url(); ?>/../js/toastr/toastr.min.js"></script> -->
-
-    <title>Libo</title>
-    <style> 
-
-    .navv-bar h1, p{
-        color: #fff;
-        padding: 0px;
-        margin-left: 40px;
-    }
-    .navv-bar h1{
-        font-weight: bold;
-        font-size: 25px;
-    }
-    .navv-bar p{
-        font-size: 16px;
-        font-weight: lighter;
-    }
-    .data-reportts{
-        margin-top: 250px;
-        margin-left: 30px;
-    }
-    
-     .meddia{
-        padding-top: 50px;
-        margin-left: 30px;
-    }
-    
-    .cads p{
-        margin-left: 0px;
-        margin-top: 20px;
-        color: #707070;
-        font-size: 11px;
-        font-weight: bold;
-    }
-    
-    .btn{
-        border-radius: 10px;
-        font-size: 10px;
-        color: #FFFFFF;
-        border: none;
-        height: 15px;
-        cursor: pointer;
-    }
-    
-    .cad-info h2{
-        font-size: 17px;
-        font-weight: bold;
-        color: #BF78DD;
-        margin-left: 20px;
-    } 
-    </style> 
-   
+    <title>Document</title>
 </head>
 <body>
-   <div class="jumbotron jumbotron-fluid">
-   <div class="container-fluid">
-    <div class="dashboard">
-        <div class="logo">
-            <img src="<?=base_url()?>/images/logo.png" alt="">
-        </div>
-        <div class="links">
-        <a href="<?=base_url()?>/home"><img src="<?=base_url()?>/images/menubar1.png" alt=""></a>
-        </div>
-        <div class="links">
-            <a href="<?=base_url()?>/books"><img src="<?=base_url()?>/images/books.png" alt=""></a>
-        </div>
-        <div class="links">
-        <a href="<?=base_url()?>/tutorials"><img src="<?=base_url()?>/images/tutorial.png" alt=""></a>
-        </div>
-        <div class="links">
-        <a href="<?=base_url()?>/user"><img src="<?=base_url()?>/images/user.png" alt=""></a>
-        </div>
-        <div class="links">
-        <a href="<?=base_url()?>/help"><img src="<?=base_url()?>/images/help.png" alt=""></a>
-        </div>
-        <div class="links">
-        <a href="<?=base_url()?>/home/logout"><img src="<?=base_url()?>/images/logout.png" alt=""></a>
+    <div class="modal" id="detailModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">User Details</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body" id="user-details">
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
     </div>
-  
+    <script>
+        $(document).ready(function(){
+            var dataTable = $('#user_data_table').DataTable({
+                "processing":true,
+                "serverSide":true,
+                "order":[],
+                "ajax":{
+                    url:"ajax_action.php",
+                    type:"POST",
+                    data:{action:'fetch', page:'user'}
+                },
+                "columnDefs":[
+                    {
+                        "targets":[0,6],
+                        "orderable":false
+                    },
+                ],
+            });
 
-    
-    
+            $(document).on('click', '.details', function(){
+                var user_id = $(this).attr('id');
+                $.ajax({
+                    url:"ajax_action.php",
+                    method:"POST",
+                    data:{action:'fetch_data', user_id:user_id, page:'user'},
+                    success:function(data)
+                    {
+                        $('#user_details').html(data);
+                        $('#detailModal').modal('show');
+                    }
+                })
+            })
+        });
+    </script>
+</body>
+</html>

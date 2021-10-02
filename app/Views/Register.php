@@ -6,27 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <title>Register</title>
-    <style>
-        #demo8::placeholder{
-            margin-left: -55px;
-        }
-
-        .right-box a{
-            text-decoration: none;
-            font-size: 12px;
-            line-height: 20px;
-            color: white;
-            margin-left: 5px;
-        }
-        .right-box p{
-            font-size: 12px;
-            line-height: 20px;
-            color: white; 
-        }
-        .right-box a:hover{
-            color: #ffc107;
-        }
-    </style>
+    
 </head>
 <body>
     <form action="<?=base_url()?>/register/save" method="post">

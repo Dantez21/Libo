@@ -4,15 +4,19 @@ namespace App\Controllers;
 
 use App\Models\BookModel;
 
+use App\Models\People;
+
  class Books extends BaseController{
 
-	protected $_bookModel;
+	protected $_bookModel, $_personModel;
 
 	public function initController(\CodeIgniter\HTTP\RequestInterface $request, \CodeIgniter\HTTP\ResponseInterface $response, \Psr\Log\LoggerInterface $logger)
 	{
 		parent::initController($request, $response, $logger,);
 
 		$this->_bookModel = new BookModel();
+
+		$this->_personModel = new People();
 	}
 
 	// function index()
@@ -26,64 +30,53 @@ use App\Models\BookModel;
 
 	public function getBooks(){
 
-		$request = service('request');
-		$postData = $request->getPost();
-		$dtpostData = $postData['data'];
-		$response = array();
+		$limit = $this->request->getVar('length');
+
+		$offset = $this->request->getVar('start');
+
+		$search = $this->request->getVar('search');
+
+		$users = $this->_personModel->
+			groupStart()->
+				like('firstName', $search['value'])->
+				orLike('lastName', $search['value'])->
+				orLike('email', $search['value'])->
+				orLike('userName', $search['value'])->
+			groupEnd()
 		
-		
-   
-		## Read value
-		$draw = $dtpostData['draw'];
-		$start = $dtpostData['start'];
-		$rowperpage = $dtpostData['length']; // Rows display per page
-		$columnIndex = $dtpostData['order'][0]['column']; // Column index
-		$columnName = $dtpostData['columns'][$columnIndex]['data']; // Column name
-		$columnSortOrder = $dtpostData['order'][0]['dir']; // asc or desc
-		$searchValue = $dtpostData['search']['value']; // Search value
-   
-		## Total number of records without filtering
-		$books = new Books();
-		$totalRecords = $books->select->getPost('id')
-						->countAllResults();
-   
-		## Total number of records with filtering
-		$totalRecordwithFilter = $books->select->getPost('id')
-			   ->orLike('name', $searchValue)
-			   ->orLike('author', $searchValue)
-			   ->orLike('description', $searchValue)
-			   ->countAllResults();
-   
-		## Fetch records
-		$records = $books->select->getPost('*')
-			   ->orLike('name', $searchValue)
-			   ->orLike('author', $searchValue)
-			   ->orLike('description', $searchValue)
-			   ->orderBy($columnName,$columnSortOrder)
-			   ->findAll($rowperpage, $start);
-   
-		$data = array();
-   
-		foreach($records as $record ){
-   
-		   $data[] = array( 
-			  "id"=>$record['id'],
-			  "name"=>$record['book_name'],
-			  "author"=>$record['book_author'],
-			  "description"=>$record['book_description']
-		   ); 
+		->findAll($limit, $offset);
+
+		// var_dump($users);
+
+		$result = array();
+
+		$counter = 1;
+
+		foreach ($users as $user) {
+			
+			$result[] = array(
+				$counter,
+				$user->firstName." ".$user->lastName,
+				$user->firstName,
+				$user->email,
+				$user->userName
+			);
+
+			$counter++;
+
 		}
-   
-		## Response
-		$response = array(
-		   "draw" => intval($draw),
-		   "iTotalRecords" => $totalRecords,
-		   "iTotalDisplayRecords" => $totalRecordwithFilter,
-		   "aaData" => $data,
-		   "token" => csrf_hash() // New token hash
+		
+
+		$data = array(
+			"recordsTotal" => sizeof($users),
+			"recordsFiltered" => sizeof($result),
+			"data" => $result
 		);
-   
-		return $this->response->setJSON($response);
+
+		// var_dump($data);
+
+		echo json_encode($data);
+
 	  }
    }
 
@@ -112,4 +105,5 @@ use App\Models\BookModel;
 
 	// 	var_dump($bookInfo);
 	// }
+
 
